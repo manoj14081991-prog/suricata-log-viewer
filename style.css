@@ -1,0 +1,360 @@
+/* =====================================================================
+   Suricata Log Viewer - style.css
+   Same class names as before, so index.html and app.js work unchanged.
+   Sections: 1) Base  2) Header  3) Boxes  4) Upload  5) Filters
+             6) Stats  7) Log cards  8) Severity  9) Errors  10) Mobile
+   ===================================================================== */
+
+/* ---------- 1) Base: reset + page look ---------- */
+
+/* Remove default browser spacing so we control the layout */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Page background, font and default text colour */
+body {
+    font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+/* Centered content area with a maximum width */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+/* ---------- 2) Header: title banner ---------- */
+
+/* Dark blue banner at the top of the page */
+.header {
+    margin-bottom: 25px;
+    padding: 28px 30px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #1e3a8a, #2563eb);
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+}
+
+.header h1 {
+    font-size: 30px;
+    margin-bottom: 8px;
+    color: #ffffff;
+}
+
+.header p {
+    color: #dbeafe;
+}
+
+/* ---------- 3) Boxes: shared look of the main sections ---------- */
+
+/* White rounded boxes with a soft shadow */
+.upload-section,
+.filter-section,
+.stats,
+.log-container {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+/* ---------- 4) Upload section ---------- */
+
+/* Small bold labels above inputs */
+.upload-section label,
+.filter-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #334155;
+}
+
+/* Dashed "drop zone" style around the file picker */
+.upload-section {
+    border: 2px dashed #cbd5e1;
+    background: #f8fafc;
+}
+
+#fileInput {
+    padding: 8px;
+    width: 100%;
+    max-width: 480px;
+    cursor: pointer;
+}
+
+/* Nicer "Choose file" button inside the file picker */
+#fileInput::file-selector-button {
+    background: #2563eb;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 16px;
+    margin-right: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#fileInput::file-selector-button:hover {
+    background: #1d4ed8;
+}
+
+/* Status text under the picker (e.g. "file loaded successfully") */
+#fileStatus {
+    margin-top: 10px;
+    color: #15803d;
+    font-weight: 500;
+}
+
+/* ---------- 5) Filters: dropdowns side by side ---------- */
+
+.filter-section {
+    display: flex;
+    gap: 20px;
+}
+
+.filter-group {
+    min-width: 200px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #ffffff;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* Blue outline when a dropdown is selected, so users see where they are */
+select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+/* ---------- 6) Statistics: three number cards ---------- */
+
+.stats {
+    display: flex;
+    gap: 20px;
+}
+
+/* Each card grows equally and has a coloured top line */
+.stat-card {
+    flex: 1;
+    border: 1px solid #e5e7eb;
+    border-top: 4px solid #2563eb;
+    border-radius: 8px;
+    padding: 15px 25px;
+    min-width: 150px;
+}
+
+.stat-card span {
+    display: block;
+    color: #6b7280;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.stat-card strong {
+    font-size: 28px;
+    color: #1e3a8a;
+}
+
+/* Card 2 (Invalid Entries) = red, Card 3 (Showing) = green */
+.stat-card:nth-child(2) {
+    border-top-color: #dc2626;
+}
+
+.stat-card:nth-child(2) strong {
+    color: #b91c1c;
+}
+
+.stat-card:nth-child(3) {
+    border-top-color: #16a34a;
+}
+
+.stat-card:nth-child(3) strong {
+    color: #15803d;
+}
+
+/* Message shown when no logs are loaded / nothing matches */
+.empty-state {
+    text-align: center;
+    padding: 50px 20px;
+    color: #6b7280;
+}
+
+.empty-state h2 {
+    margin-bottom: 8px;
+    color: #475569;
+}
+
+/* ---------- 7) Log cards (created by app.js) ---------- */
+
+/* One card per event; grey left line = normal event (severity colours below override it) */
+.log-card {
+    border: 1px solid #e5e7eb;
+    border-left: 5px solid #94a3b8;
+    border-radius: 8px;
+    padding: 18px;
+    margin-bottom: 15px;
+    background: #ffffff;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+/* Small lift effect when the mouse is over a card */
+.log-card:hover {
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.12);
+    transform: translateY(-2px);
+}
+
+/* Event type (ALERT, DNS ...) shown as a small pill */
+.log-card h3 {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 6px;
+    background: #e0e7ff;
+    color: #3730a3;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.log-card p {
+    margin: 6px 0;
+}
+
+/* Label (Timestamp / Source ...) gets a fixed width so all values line up */
+.log-card p strong {
+    display: inline-block;
+    min-width: 110px;
+    color: #64748b;
+    font-weight: 600;
+}
+
+/* Last line of the card = Summary, shown in a light highlighted box */
+.log-card p:last-child {
+    margin-top: 12px;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border-radius: 6px;
+}
+
+/* Top row of a card: event type on the left, severity badge on the right */
+.log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+/* ---------- 8) Severity: colours for alert cards ---------- */
+
+/* Small rounded label (High / Medium / Low / Unknown) */
+.severity-badge {
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Coloured left line of the whole card */
+.severity-high {
+    border-left: 5px solid #dc2626;
+}
+
+.severity-medium {
+    border-left: 5px solid #f59e0b;
+}
+
+.severity-low {
+    border-left: 5px solid #16a34a;
+}
+
+.severity-unknown {
+    border-left: 5px solid #6b7280;
+}
+
+/* Badge colours: red = high, orange = medium, green = low, grey = unknown */
+.severity-high .severity-badge {
+    background: #fee2e2;
+    color: #b91c1c;
+}
+
+.severity-medium .severity-badge {
+    background: #fef3c7;
+    color: #b45309;
+}
+
+.severity-low .severity-badge {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.severity-unknown .severity-badge {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+/* ---------- 10) Mobile: small screens (tablet / phone) ---------- */
+
+@media (max-width: 768px) {
+
+    .container {
+        width: 95%;
+        margin: 20px auto;
+    }
+
+    /* Put dropdowns and stat cards one below the other */
+    .filter-section {
+        flex-direction: column;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .stats {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        width: 100%;
+    }
+
+    .log-header {
+        align-items: flex-start;
+        gap: 10px;
+        flex-direction: column;
+    }
+
+    /* Label above value on narrow screens, so long IPs / summaries fit */
+    .log-card p strong {
+        display: block;
+        min-width: 0;
+    }
+}
+
+/* ---------- 9) Error message (red box, hidden until app.js shows it) ---------- */
+
+.error-message {
+    display: none;
+    background: #fee2e2;
+    color: #b91c1c;
+    border: 1px solid #fca5a5;
+    padding: 12px 16px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}

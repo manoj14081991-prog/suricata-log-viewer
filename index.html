@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Suricata Log Viewer</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main wrapper: keeps the whole page centered with a maximum width -->
+    <div class="container">
+
+        <!-- Page title and short description -->
+        <header class="header">
+            <h1>Suricata Log Viewer</h1>
+            <p>View, filter and sort Suricata eve.json logs</p>
+        </header>
+
+    <!-- Red message box. Hidden by default; app.js shows it for invalid files or skipped lines -->
+    <div id="errorMessage" class="error-message"></div>
+
+
+        <!-- File Upload -->
+        <section class="upload-section">
+
+            <label for="fileInput">
+                Select eve.jsonl file
+            </label>
+
+            <!-- File picker. app.js listens to it (id="fileInput") and accepts only .jsonl / .json files -->
+            <input
+                type="file"
+                id="fileInput"
+                accept=".jsonl,.json"
+            >
+
+            <!-- Status text, e.g. 'eve-sample.jsonl loaded successfully.' -->
+            <p id="fileStatus"></p>
+
+        </section>
+
+        <!-- Filters -->
+        <section class="filter-section">
+
+            <div class="filter-group">
+
+                <label for="eventTypeFilter">
+                    Event Type
+                </label>
+
+                <!-- Dropdown to show only one event type. Options are added by app.js after a file is loaded -->
+                <select id="eventTypeFilter">
+                    <option value="all">All Events</option>
+                </select>
+
+            </div>
+
+
+            <div class="filter-group">
+
+                <label for="sortOrder">
+                    Sort By
+                </label>
+
+                <!-- Dropdown to sort events by time: newest first or oldest first -->
+                <select id="sortOrder">
+
+                    <option value="newest">
+                        Newest First
+                    </option>
+
+                    <option value="oldest">
+                        Oldest First
+                    </option>
+
+                </select>
+
+            </div>
+
+        </section>
+
+        <!-- Statistics -->
+        <section class="stats">
+
+            <!-- Card 1: how many valid events were found in the file -->
+            <div class="stat-card">
+                <span>Total Events</span>
+                <strong id="totalEvents">0</strong>
+            </div>
+
+            <!-- Card 2: how many broken lines were skipped -->
+            <div class="stat-card">
+                <span>Invalid Entries</span>
+                <strong id="invalidEvents">0</strong>
+            </div>
+            <!-- Card 3: how many events are visible with the current filter -->
+            <div class="stat-card">
+                <span>Showing</span>
+                <strong id="showingEvents">0</strong>
+            </div>
+
+        </section>
+
+        <!-- Logs -->
+        <!-- All log cards are drawn here by app.js. Until a file is loaded, a 'No logs loaded' message is shown -->
+        <main id="logContainer" class="log-container">
+
+            <div class="empty-state">
+                <h2>No logs loaded</h2>
+                <p>
+                    Select an eve.jsonl file to view Suricata events.
+                </p>
+            </div>
+
+        </main>
+
+    </div>
+
+    <!-- Load the JavaScript that makes the page work (must stay at the end of the page) -->
+    <script src="app.js"></script>
+
+</body>
+</html>
